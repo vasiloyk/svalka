@@ -10,12 +10,22 @@ def random_predict(number:int=1) -> int:
         int: Число попыток
     """
     count = 0
-
-    while True:
+    a = 1
+    b = 100
+    predict = a + b
+    predict //= 2
+    #print("number = ",number)
+    
+    while number != predict:
         count += 1
-        predict_number = np.random.randint(1, 101) # предполагаемое число
-        if number == predict_number:
-            break # выход из цикла, если угадали
+        if number > predict:
+            a = predict
+        elif number < predict:
+            b = predict
+        
+        predict = a + b
+        #print("a =",a,"b =",b,"predict =",predict)
+        predict //= 2 
     return(count)
 
 def new_func(count):
@@ -42,6 +52,8 @@ def score_game(random_predict) -> int:
 
     print(f'Ваш алгоритм угадывает число в среднем за: {score} попыток')
     return(score)
+
+#print(score_game(random_predict))
 
 # RUN
 if __name__ == '__main__':
