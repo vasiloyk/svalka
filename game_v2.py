@@ -14,7 +14,7 @@ def random_predict(number:int=1) -> int:
     b = 100
     predict = a + b
     predict //= 2
-    print("number = ",number)
+    #print("number = ",number)
     
     while number != predict:
         count += 1
@@ -24,12 +24,9 @@ def random_predict(number:int=1) -> int:
             b = predict
         
         predict = a + b
-        print("a =",a,"b =",b,"predict =",predict)
+        #print("a =",a,"b =",b,"predict =",predict)
         predict //= 2 
     return(count)
-
-def new_func(count):
-    count += 1
 #print(f'Количество попыток: {random_predict()}')
 def score_game(random_predict) -> int:
     """За какое количество попыток в среднем из 1000 подходов угадывает наш алгоритм
@@ -43,7 +40,7 @@ def score_game(random_predict) -> int:
 
     count_ls = [] # список для сохранения количества попыток
     np.random.seed(1) # фиксируем сид для воспроизводимости
-    random_array = np.random.randint(1, 101, size=(100)) # загадали список чисел
+    random_array = np.random.randint(1, 101, size=(1000)) # загадали список чисел
 
     for number in random_array:
         count_ls.append(random_predict(number))
