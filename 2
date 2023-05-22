@@ -1,0 +1,6 @@
+import pandas as pd
+student_data = pd.read_csv('data/students_performance.csv', sep=',')
+#print(student_data[student_data['lunch'] == 'standard']['math score'].mean())
+print(student_data[student_data['race/ethnicity'] == 'group A']['writing score'].median())
+print(student_data[student_data['race/ethnicity'] == 'group C']['writing score'].median())
+#print(student_data[(student_data['parental level of education'] == "bachelor's degree")&((student_data['gender'] == 'male')|(student_data['gender'] == 'female'))].count())

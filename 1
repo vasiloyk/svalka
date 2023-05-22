@@ -1,0 +1,28 @@
+import pandas as pd
+import numpy as np
+melb_data = pd.read_csv('data/melb_data.csv', sep=',')
+l1 = melb_data.loc[3521,'Landsize']
+#l11 = l1.Landsize
+l2 = melb_data.loc[1690,'Landsize']
+#l21 = l2.Landsize
+#l,ld = melb_data.iloc[[3521],[14]]
+print(l1/l2)
+#print(melb_data.iloc[[3521],[14]]/melb_data.iloc[[1690],[14]])
+#print(melb_data.iloc[[1690],[14]])
+print(melb_data.head())
+#print(melb_data.describe().loc[:, ['Distance', 'BuildingArea' , 'Price']])
+#print(melb_data['Type'].value_counts(normalize=True))
+landsize_median = melb_data['BuildingArea'].median() 
+landsize_mean =  melb_data['BuildingArea'].mean()
+#print(abs(landsize_median - landsize_mean)/landsize_mean)
+#print(melb_data['BuildingArea'].median()/melb_data['BuildingArea'].std())
+
+#print(melb_data[(melb_data['SellerG']=='Nelson')&(melb_data['Price']>3000000)].shape[0])
+#print(melb_data[(melb_data['BuildingArea']==0)]['Price'].min())
+a = melb_data[(melb_data['Price']<1000000)&(melb_data['Rooms']>5)]['Price'].mean()
+b = melb_data[(melb_data['Price']<1000000)&(melb_data['YearBuilt']>2015)]['Price'].mean()
+#print(a,b,(a+b)/2)
+print(melb_data[(melb_data['Type'] == 'h')&(melb_data['Price'] < 3000000)&(melb_data['Regionname'] == 'Northern Metropolitan')].shape[0])
+print(melb_data[(melb_data['Type'] == 'h')&(melb_data['Price'] < 3000000)&(melb_data['Regionname'] == 'Southern Metropolitan')].shape[0])
+print(melb_data[(melb_data['Type'] == 'h')&(melb_data['Price'] < 3000000)&(melb_data['Regionname'] == 'Eastern Victoria')].shape[0])
+print(melb_data[(melb_data['Type'] == 'h')&(melb_data['Price'] < 3000000)&(melb_data['Regionname'] == 'Northern Victoria')].shape[0])
