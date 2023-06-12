@@ -1,0 +1,44 @@
+import pandas as pd
+import re
+
+ratings_movies = pd.read_csv('data/ratings_movies.csv', sep=',')
+movies_df = ratings_movies.copy()
+
+def get_year_release(arg):
+    #находим все слова по шаблону "(DDDD)"
+    candidates = re.findall(r'\(\d{4}\)', arg) 
+    # проверяем число вхождений
+    if len(candidates) > 0:
+        #если число вхождений больше 0,
+	#очищаем строку от знаков "(" и ")"
+        year = candidates[0].replace('(', '')
+        year = year.replace(')', '')
+        return int(year)
+    else:
+        #если год не указан, возвращаем None
+        return None
+    
+movies_df['year_release'] = movies_df['title'].apply(get_year_release)
+#print(movies_df['year_release'].value_counts())
+#movies_1999 = movies_df[movies_df['year_release']==1999.0].groupby('title')['rating'].mean().sort_values()
+#movies_2010 = movies_df[movies_df['year_release']==2010.0].groupby('genres')['rating'].mean().sort_values()
+
+#print(movies_df.groupby('userId')['genres'].nunique().sort_values())
+#print(movies_df.groupby('userId')['rating'].agg(['count','mean']).sort_values(by=['count','mean'],ascending=[True,False]))
+#mask1 = movies_df[movies_df['year_release']==2018.0].groupby('genres')['rating'].agg(['count','mean'])
+#print(mask1[mask1['count']>10])
+
+movies_df['date'] = pd.to_datetime(movies_df['date'],dayfirst=False)
+movies_df['year_rating'] = movies_df['date'].dt.year
+#print(movies_df.head())
+#mask1 = movies_df.pivot_table(values='rating',index='year_rating',columns='genres',aggfunc=['mean'],fill_value=0)
+#print(mask1.loc[2018])
+
+orders_df = pd.read_csv('data/orders.csv',sep=";")
+products_df = pd.read_csv('data/products.csv',sep=";")
+
+orders_products = orders_df.join(products_df.set_index('Product_ID'),on="ID товара",how='left')
+#print(orders_products)
+orders_products['Сумма'] = orders_products['Количество']*orders_products['Price']
+mask1 = orders_products[orders_products['Оплачен']=='Да'].groupby('ID Покупателя')['Сумма'].sum()
+print(mask1)

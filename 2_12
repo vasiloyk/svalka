@@ -1,0 +1,41 @@
+import pandas as pd
+
+melb_data = pd.read_csv('data/melb_data_fe.csv', sep=',')
+melb_df = melb_data.copy()
+#print(melb_data.head())
+#print(melb_data.info())
+melb_df['Date'] = pd.to_datetime(melb_df['Date'],dayfirst=False)
+#melb_df['quarter'] = melb_df['Date'].dt.quarter
+#print(melb_df['quarter'].value_counts())
+#print(melb_df[melb_df['quarter']==3].value_counts())
+#print(melb_df.nunique())
+#cols_to_exclude = ['Date', 'Rooms', 'Bedroom', 'Bathroom', 'Car'] # список столбцов, которые мы не берём во внимание
+#max_unique_count = 150 # задаём максимальное число уникальных категорий
+#for col in melb_df.columns: # цикл по именам столбцов
+#    if melb_df[col].nunique() < max_unique_count and col not in cols_to_exclude: # проверяем условие
+#        melb_df[col] = melb_df[col].astype('category') # преобразуем тип столбца
+#print(melb_df.sort_values(by=['Distance', 'Price']).loc[::10,['Distance','Price']])
+#tb_sorted = melb_df.sort_values(by=['AreaRatio'],ignore_index = True,ascending=False).copy()
+#print(tb_sorted.loc[1558,['BuildingArea']])
+#mask1 = melb_df[(melb_df['Type']=='townhouse')&(melb_df['Rooms']>2)]
+#mask2 = mask1.sort_values(by=['Rooms','MeanRoomsSquare'],ascending=[True, False],ignore_index=True)
+#print(mask2.loc[18,'Price'])
+#print(melb_df.groupby('Rooms')['Price'].mean().max())#agg('describe')
+#print(melb_df.groupby('Regionname')['Lattitude'].std().sort_values(ascending=True))
+#filtered = melb_df[(melb_df['Date']>='2017-05-01')&(melb_df['Date']<='2017-09-01')].copy()
+#print(filtered.groupby('SellerG')['Price'].sum().sort_values(ascending=True))
+#pivot = melb_df.pivot_table(
+#    values='BuildingArea',
+#    index=['Rooms'],
+#    columns='Type',
+#    aggfunc='median',
+#    fill_value=0
+#)
+pivot = melb_df.pivot_table(
+    values='Price',
+    index=['SellerG'],
+    columns='Type',
+    aggfunc='median',
+    fill_value=0
+)
+print(pivot.sort_values(['unit']))

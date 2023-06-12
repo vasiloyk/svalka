@@ -1,0 +1,10 @@
+import pandas as pd
+
+ufo = pd.read_csv('data/ufo.csv', sep=',')
+ufo_df = ufo.copy()
+ufo_df['Date'] = pd.to_datetime(ufo_df['Time'], dayfirst=False)
+#melb_df['WeekdaySale'] = melb_df['Date'].dt.dayofweek
+ufo_df['date_nlo'] = ufo_df['Date'].dt.date
+ufo_df['diff_day'] = ufo_df[ufo_df['State']=='NV']['date_nlo'].diff()
+ufo_df['m'] = ufo_df['diff_day'].mean()
+print(ufo_df['m'].dt.days)

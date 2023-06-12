@@ -1,0 +1,17 @@
+import pandas as pd
+
+ratings1_data = pd.read_csv('data/ratings1.csv', sep=',')
+rate1_df = ratings1_data.copy()
+ratings2_data = pd.read_csv('data/ratings2.csv', sep=',')
+rate2_df = ratings2_data.copy()
+ratings = pd.concat([rate1_df, rate2_df],ignore_index=True)
+ratings = ratings.drop_duplicates(ignore_index=True)
+#print(ratings)
+#print(rate1_df['userId'].nunique())
+dates_data = pd.read_csv('data/dates.csv', sep=',')
+dates_df = dates_data.copy()
+dates_df['date'] = pd.to_datetime(dates_df['date'],dayfirst=False)
+#dates_df['year'] = dates_df['date'].dt.year
+#print(dates_df['year'].value_counts().sort_values())
+ratings_dates = pd.concat([ratings, dates_df], axis=1)
+print(ratings_dates)

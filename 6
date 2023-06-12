@@ -1,0 +1,42 @@
+import pandas as pd
+
+citibike_tripdata = pd.read_csv('data/citibike_tripdata.csv', sep=',')
+citibike_td = citibike_tripdata.copy()
+#print(citibike_td.info())
+#print(citibike_td['starttime'].info())
+#print(citibike_td['usertype'].value_counts(normalize=True))
+#print(citibike_td[citibike_td['start station name']=='Eastern Pkwy & Washington Ave']['start station id'].min())
+#print(citibike_td[citibike_td['start station id']==72]['start station name'])
+#print(citibike_td.describe())
+citibike_td = citibike_td.drop(['start station id','end station id'],axis=1)
+#print(citibike_td.shape)
+citibike_td['age'] = 2018 - citibike_td['birth year']
+#print(citibike_td[citibike_td['age']>60].count())
+citibike_td = citibike_td.drop(['birth year'],axis=1)
+citibike_td['starttime'] = pd.to_datetime(citibike_td['starttime'], dayfirst=False)
+citibike_td['stoptime'] = pd.to_datetime(citibike_td['stoptime'], dayfirst=False)
+citibike_td['trip duration'] = citibike_td['stoptime'] - citibike_td['starttime']
+#print(citibike_td['trip duration'])
+citibike_td['DayOfWeek'] = citibike_td['starttime'].dt.dayofweek
+def setweek(dayofweek):
+    if (dayofweek == 5)or(dayofweek == 6):
+        return 1
+    return 0
+citibike_td['weekend'] = citibike_td['DayOfWeek'].apply(setweek)
+#print(citibike_td['weekend'].value_counts())
+
+
+
+def get_time_of_day(timeday):
+    if (timeday >= 0)&(timeday <= 6):
+        return 'night'
+    elif (timeday > 6)&(timeday <= 12):
+        return 'morning'
+    elif (timeday > 12)&(timeday <= 18):
+        return 'day'
+    elif (timeday > 18)&(timeday <= 23):
+        return 'evening'
+    
+citibike_td['hour_of_day'] = citibike_td['starttime'].dt.hour
+citibike_td['time_of_day'] = citibike_td['hour_of_day'].apply(get_time_of_day)
+print(citibike_td['time_of_day'].value_counts())#/citibike_td[citibike_td['time_of_day']=='night'])
