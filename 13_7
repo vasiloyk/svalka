@@ -1,0 +1,8 @@
+import seaborn as sns
+import pandas as pd
+import matplotlib.pyplot as plt
+#%matplotlib inline
+
+churn_data = pd.read_csv('data/churn.csv')
+print(churn_data.head())
+
